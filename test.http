@@ -1,0 +1,66 @@
+### return all posts
+GET http://localhost:8000/posts
+
+### return a specific post
+GET http://localhost:8000/posts/1
+
+### create a new post
+POST http://localhost:8000/posts
+Content-Type: application/json
+
+{
+    "title": "Reuse Bags",
+    "content": "Remember to bring your own bag",
+    "authorId": 7
+}
+
+### update a post
+PUT http://localhost:8000/posts/2
+Content-Type: application/json
+
+{
+    "title": "Reuse Bags",
+    "content": "Remember to bring your own bag",
+    "authorId": 5
+}
+
+### delete a specific post
+DELETE http://localhost:8000/posts/1
+
+### get comments by post id
+GET http://localhost:8000/posts/1/comments
+
+### comment on post
+POST http://localhost:8000/posts/1/comments
+Content-Type: application/json
+
+{
+    "content": "I don't think so.",
+    "authorId": 3
+}
+
+### delete a comment
+DELETE http://localhost:8000/posts/1/comments/2
+
+### return all users
+GET http://localhost:8000/users
+
+### return user by id
+GET http://localhost:8000/users/2
+
+### create a new user
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+    "userName": "Clare",
+    "email": "clare@mail.com"
+}
+
+### create a wrong user
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+    "userName": "Clare"
+}
