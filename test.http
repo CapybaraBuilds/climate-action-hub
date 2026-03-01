@@ -2,59 +2,60 @@
 GET http://localhost:8000/posts
 
 ### return a specific post
-GET http://localhost:8000/posts/1
+GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
 
 ### create a new post
 POST http://localhost:8000/posts
 Content-Type: application/json
 
 {
-    "title": "Reuse Bags",
-    "content": "Remember to bring your own bag",
-    "authorId": 7
+    "title": "Reuse Bags1",
+    "content": "Remember to bring your own bag1",
+    "authorId": "69a0d23b1deec5dd4f138f84"
 }
 
 ### update a post
-PUT http://localhost:8000/posts/2
+PUT http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
 Content-Type: application/json
 
 {
-    "title": "Reuse Bags",
+    "title": "Reuse Bags updated",
     "content": "Remember to bring your own bag",
-    "authorId": 5
+    "authorId": "69a0d23b1deec5dd4f138f84"
 }
 
 ### delete a specific post
-DELETE http://localhost:8000/posts/1
+DELETE http://localhost:8000/posts/69a0d6dc3ccad04e9cab73fe
 
 ### get comments by post id
-GET http://localhost:8000/posts/1/comments
+GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments
 
 ### comment on post
-POST http://localhost:8000/posts/1/comments
+POST http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments
 Content-Type: application/json
 
 {
     "content": "I don't think so.",
-    "authorId": 3
+    "postId": "69a0d6f23ccad04e9cab7400",
+    "authorId": "69a0d30a2f1d2e938e2d8ab5"
 }
 
 ### delete a comment
-DELETE http://localhost:8000/posts/1/comments/2
+DELETE http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments/69a0f031298aeeb4a78bb345
 
 ### return all users
 GET http://localhost:8000/users
 
 ### return user by id
-GET http://localhost:8000/users/2
+GET http://localhost:8000/users/69a0d23b1deec5dd4f138f84
 
 ### create a new user
 POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "userName": "Clare",
-    "email": "clare@mail.com"
+    "username": "Clare3",
+    "email": "clare@mail.com3"
 }
 
 ### create a wrong user

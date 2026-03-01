@@ -1,7 +1,10 @@
+require('dotenv').config()
 const PORT = process.env.PORT
 const express = require('express')
+const connectDB = require('./config/database')
 const logger = require('./middleware/logger')
 const app = express()
+connectDB()
 app.use(express.json())
 app.use(logger)
 

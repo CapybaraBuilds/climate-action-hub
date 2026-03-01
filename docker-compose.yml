@@ -1,0 +1,29 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: climate_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+  
+  app:
+    build: . # use Dockerfile in this folder to build
+    container_name: climate_app
+    environment:
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/climatedb?authSource=admin
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb # run mongodb first
+    volumes:
+      - .:/app # develop mode, sync automatically
+      - /app/node_modules # node_modules not included
+
+volumes:
+  mongodb_data:
+

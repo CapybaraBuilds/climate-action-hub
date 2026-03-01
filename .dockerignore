@@ -1,0 +1,6 @@
+node_mudules
+.env
+.git/
+.gitignore
+REDME.md
+test.http
