@@ -54,8 +54,8 @@ POST http://localhost:8000/users
 Content-Type: application/json
 
 {
-    "username": "Clare3",
-    "email": "clare@mail.com3"
+    "username": "Clare",
+    "email": "clare@mail.com"
 }
 
 ### create a wrong user

@@ -58,10 +58,25 @@ npm run dev
 
 ## Run with Docker
 
-# Start all services
+## Start all services
 
 docker-compose up --build
 
-# Stop all services
+## Stop all services
 
 docker-compose down
+
+## Deployment
+
+Deployed on AWS ECS (Fargate) with MongoDB Atlas.
+
+### Architecture
+
+- Runtime: Node.js 18 on AWS ECS Fargate
+- Database: MongoDB Atlas
+- Container Registry: AWS ECR
+- Region: us-west-2
+
+### Live API
+
+Base URL: http://35.88.52.84:3000
