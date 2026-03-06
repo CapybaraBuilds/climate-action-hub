@@ -1,8 +1,9 @@
-const express = require('express')
-const commentsRouter = express.Router({mergeParams: true})
+const express = require('express');
+const {protect} = require('../middleware/auth');
+const commentsRouter = express.Router({mergeParams: true});
 // const {comments, getNextCommentId, posts} = require('../data/db')
-const Comment = require('../models/Comment')
-const Post = require('../models/Post')
+const Comment = require('../models/Comment');
+const Post = require('../models/Post');
 
 // const getCommentsHandler = (req, res) => {
 //     const postId = req.params.postId;
@@ -65,9 +66,9 @@ const getCommentsByPostIdHandler = async(req, res) => {
 
 const createCommentHandler = async(req, res) => {
     try{
-        const {content, postId, authorId} = req.body;
-        if(!content || !postId || !authorId){
-            return res.status(400).json({error: 'Content, post id, and author id are required!'});
+        const {content} = req.body;
+        if(!content){
+            return res.status(400).json({error: 'Content is required!'});
         }
         const post = await Post.findById(req.params.postId);
         if(!post){
@@ -75,8 +76,8 @@ const createCommentHandler = async(req, res) => {
         }
         const comment = await Comment.create({
             content,
-            postId,
-            authorId
+            postId: req.params.postId,
+            authorId: req.user._id
         })
         res.json(comment);
     }catch(err){
@@ -94,10 +95,14 @@ const deleteCommentHandler = async(req, res) => {
         if(!post){
             return res.status(404).json({error: 'Post not found'});
         }
-        const comment = await Comment.findByIdAndDelete(req.params.id);
+        const comment = await Comment.findById(req.params.id);
         if(!comment){
             return res.status(404).json({error: 'Comment not found'});
         }
+        if(comment.authorId.toString() !== req.user._id.toString()){
+            return res.status(403).json({error: 'Not authorized to delete this comment!'});
+        }
+        await Comment.findByIdAndDelete(req.params.id);
         res.json({message: 'Comment deleted successfully!', comment})
     }catch(err){
         if(err.name === 'CastError'){
@@ -109,9 +114,9 @@ const deleteCommentHandler = async(req, res) => {
 
 commentsRouter.get('/', getCommentsByPostIdHandler)
 
-commentsRouter.post('/', createCommentHandler)
+commentsRouter.post('/', protect, createCommentHandler)
 
-commentsRouter.delete('/:id', deleteCommentHandler)
+commentsRouter.delete('/:id', protect, deleteCommentHandler)
 
 
 module.exports = commentsRouter

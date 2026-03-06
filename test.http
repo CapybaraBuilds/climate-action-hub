@@ -4,28 +4,7 @@ GET http://localhost:8000/posts
 ### return a specific post
 GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
 
-### create a new post
-POST http://localhost:8000/posts
-Content-Type: application/json
 
-{
-    "title": "Reuse Bags1",
-    "content": "Remember to bring your own bag1",
-    "authorId": "69a0d23b1deec5dd4f138f84"
-}
-
-### update a post
-PUT http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
-Content-Type: application/json
-
-{
-    "title": "Reuse Bags updated",
-    "content": "Remember to bring your own bag",
-    "authorId": "69a0d23b1deec5dd4f138f84"
-}
-
-### delete a specific post
-DELETE http://localhost:8000/posts/69a0d6dc3ccad04e9cab73fe
 
 ### get comments by post id
 GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments
@@ -65,3 +44,78 @@ Content-Type: application/json
 {
     "userName": "Clare"
 }
+
+###
+GET http://35.88.52.84:3000/posts
+
+### register a new user
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+    "username": "Clare",
+    "email": "clare@mail.com",
+    "password": "passwordClare"
+}
+
+
+### login as a user
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email": "clare@mail.com",
+    "password": "passwordClare"
+}
+
+### login as a user with wrong password
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email": "clare@mail.com",
+    "password": "passwordClare11"
+}
+
+### register an esisted user
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+    "username": "Alice",
+    "email": "alice@mail.com",
+    "password": "password"
+}
+
+
+### create a new post with a token
+POST http://localhost:8000/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODA4OTUsImV4cCI6MTc3MzM4NTY5NX0.oQ7MvNrgFtGOkp1axFE8aDXrPjUOesla4PM8TF1WTIg
+
+{
+    "title": "Reuse Bags",
+    "content": "Remember to bring your own bag",
+}
+
+### create a new post without a token
+POST http://localhost:8000/posts
+Content-Type: application/json
+
+{
+    "title": "Reuse Bags",
+    "content": "Remember to bring your own bag",
+}
+
+### update a post
+PUT http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
+Content-Type: application/json
+
+{
+    "title": "Reuse Bags updated",
+    "content": "Remember to bring your own bag",
+    "authorId": "69a0d23b1deec5dd4f138f84"
+}
+
+### delete a specific post
+DELETE http://localhost:8000/posts/69a0d6dc3ccad04e9cab73fe

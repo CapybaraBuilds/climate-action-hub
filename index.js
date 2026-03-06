@@ -10,9 +10,11 @@ app.use(logger)
 
 const postsRouter = require('./routes/posts')
 const usersRouter = require('./routes/users')
+const authRouter = require('./routes/auth')
 
 app.use('/posts', postsRouter)
 app.use('/users', usersRouter)
+app.use('/auth', authRouter)
 
 app.use((err, req, res, next)=>{
     console.log(err.stack)

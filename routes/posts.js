@@ -1,9 +1,10 @@
-const express = require('express')
-const postsRouter = express.Router()
+const express = require('express');
+const {protect} = require('../middleware/auth');
+const postsRouter = express.Router();
 // const {posts, getNextPostId} = require('../data/db')
-const Post = require('../models/Post')
-const commentsRouter = require('./comments')
-postsRouter.use('/:postId/comments', commentsRouter)
+const Post = require('../models/Post');
+const commentsRouter = require('./comments');
+postsRouter.use('/:postId/comments', commentsRouter);
 
 // const getPostsHandler = (req, res) => {
 //     res.send(posts);
@@ -87,16 +88,16 @@ const getPostByIdHandler = async(req, res) => {
 
 const createPostHandler = async(req, res) => {
     try{
-        const {title, content, authorId} = req.body;
-        if(!title || !content || !authorId){
-            return res.status(400).json({error:'Title, content, and authorId are required!'});
+        const {title, content} = req.body;
+        if(!title || !content){
+            return res.status(400).json({error:'Title and content are required!'});
         }
         const post = await Post.create({
             title,
             content,
-            authorId
+            authorId: req.user._id
         });
-        res.json(post)
+        res.status(201).json(post)
     }catch(err){
         res.status(500).json({error: err.message})
     }
@@ -104,20 +105,21 @@ const createPostHandler = async(req, res) => {
 
 const updatePostHandler = async(req, res)=>{
     try{
-        const {title, content, authorId} = req.body;
-        if(!title || !content || !authorId){
-            return res.status(400).json({error:'Title, content, and authorId are required!'});
+        const {title, content} = req.body;
+        if(!title || !content){
+            return res.status(400).json({error:'Title and content are required!'});
         }
-        // it returns the post before edited
-        const post = await Post.findByIdAndUpdate(req.params.id, {
-            title,
-            content,
-            authorId
-        });
-        if(!post){
-            return res.status(404).json({error: 'Post not found!'})
+        const post = await Post.findById(req.params.id);
+        if(!post) return res.status(400).json({error: 'Post not found!'});
+        if(post.authorId.toString() !== req.user._id.toString()){
+            res.status(403).json({error: 'Not authorized to update this post!'});
         }
-        res.json(post);
+        const updated = await Post.findByIdAndUpdate(
+            req.params.id, 
+            {...req.body, updatedAt: Date.now()},
+            {new: true, runValidators: true}
+        );
+        res.json(updated);
     }catch(err){
         if (err.name === 'CastError'){
             return res.status(400).json({error: 'Invalid ID format'})
@@ -128,10 +130,12 @@ const updatePostHandler = async(req, res)=>{
 
 const deletePostHandler = async(req, res) => {
     try{
-        const post = await Post.findByIdAndDelete(req.params.id);
-        if(!post){
-            return res.status(404).json({error: 'Post not found!'});
+        const post = await Post.findById(req.params.id);
+        if(!post) return res.status(404).json({error: 'Post not found!'});
+        if(post.authorId.toString() !== req.user._id.toString()){
+            return res.status(403).json({error: 'Not authorized to delete this post!'});
         }
+        await Post.findByIdAndDelete(req.params.id);    
         res.json({message: 'Post deleted successfully!', post})
     }catch(err){
         if (err.name === 'CastError'){
@@ -145,10 +149,10 @@ postsRouter.get('/', getPostsHandler)
 
 postsRouter.get('/:id', getPostByIdHandler)
 
-postsRouter.post('/', createPostHandler)
+postsRouter.post('/', protect, createPostHandler)
 
-postsRouter.put('/:id', updatePostHandler)
+postsRouter.put('/:id', protect, updatePostHandler)
 
-postsRouter.delete('/:id', deletePostHandler)
+postsRouter.delete('/:id', protect, deletePostHandler)
 
 module.exports = postsRouter
