@@ -16,6 +16,10 @@ app.use('/posts', postsRouter)
 app.use('/users', usersRouter)
 app.use('/auth', authRouter)
 
+app.get("/health", (req, res)=>{
+    res.status(200).json({status: 'OK', timestamp: new Date().toISOString()})
+})
+
 app.use((err, req, res, next)=>{
     console.log(err.stack)
     res.status(500).json({error: 'Something went wrong'})

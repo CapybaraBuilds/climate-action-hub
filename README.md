@@ -1,37 +1,46 @@
 # ClimateAction Hub API
 
-A RESTful API for a climate action community forum, built with Node.js and Express.js
+A RESTful API for a climate action community forum, built with Node.js, Express.js, and MongoDB, deployed on AWS ECS.
 
 ## Features
 
-- Forum post management (CRUD)
-- Nested comments on posts
-- User management
+- User registration and login with JWT authentication
+- Bcrypt password hashing
+- Forum post and comment CRUD operations
+- Role-based access control (only authors can edit/delete their content)
+- Containerized with Docker, deployed on AWS ECS Fargate
+- Auto-scaling based on CPU utilization
 
 ## Tech Stack
 
-- Node.js
-- Express.js
+Node.js · Express · MongoDB · Mongoose · JWT · Docker · AWS ECS · AWS ECR
 
 ## API Endpoints
 
+### Authentication
+
+| Method | Endpoint       | Auth | Description       |
+| ------ | -------------- | ---- | ----------------- |
+| POST   | /auth/register | No   | Register new user |
+| POST   | /auth/login    | No   | Login and get JWT |
+
 ### Posts
 
-| Method | Endpoint   | Description   |
-| ------ | ---------- | ------------- |
-| GET    | /posts     | Get all posts |
-| GET    | /posts/:id | Get a post    |
-| POST   | /posts     | Create a post |
-| PUT    | /posts/:id | Update a post |
-| DELETE | /posts/:id | Delete a post |
+| Method | Endpoint   | Auth              | Description   |
+| ------ | ---------- | ----------------- | ------------- |
+| GET    | /posts     | No                | Get all posts |
+| GET    | /posts/:id | No                | Get a post    |
+| POST   | /posts     | Yes               | Create a post |
+| PUT    | /posts/:id | Yes (author only) | Update a post |
+| DELETE | /posts/:id | Yes (author only) | Delete a post |
 
 ### Comments
 
-| Method | Endpoint                    | Description                |
-| ------ | --------------------------- | -------------------------- |
-| GET    | /posts/:postId/comments     | Get all comments of a post |
-| POST   | /posts/:postId/comments     | Create a comment           |
-| DELETE | /posts/:postId/comments/:id | Delete a comment           |
+| Method | Endpoint                    | Auth              | Description                |
+| ------ | --------------------------- | ----------------- | -------------------------- |
+| GET    | /posts/:postId/comments     | No                | Get all comments of a post |
+| POST   | /posts/:postId/comments     | Yes (author only) | Create a comment           |
+| DELETE | /posts/:postId/comments/:id | Yes (author only) | Delete a comment           |
 
 ### Users
 
@@ -76,6 +85,8 @@ Deployed on AWS ECS (Fargate) with MongoDB Atlas.
 - Database: MongoDB Atlas
 - Container Registry: AWS ECR
 - Region: us-west-2
+
+![Architecture](./architecture.png)
 
 ### Live API
 
