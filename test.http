@@ -4,23 +4,8 @@ GET http://localhost:8000/posts
 ### return a specific post
 GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
 
-
-
 ### get comments by post id
-GET http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments
-
-### comment on post
-POST http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments
-Content-Type: application/json
-
-{
-    "content": "I don't think so.",
-    "postId": "69a0d6f23ccad04e9cab7400",
-    "authorId": "69a0d30a2f1d2e938e2d8ab5"
-}
-
-### delete a comment
-DELETE http://localhost:8000/posts/69a0d6f23ccad04e9cab7400/comments/69a0f031298aeeb4a78bb345
+GET http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec/comments
 
 ### return all users
 GET http://localhost:8000/users
@@ -68,6 +53,15 @@ Content-Type: application/json
     "password": "passwordClare"
 }
 
+### login as another user
+POST http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "email": "alice@mail.com",
+    "password": "password"
+}
+
 ### login as a user with wrong password
 POST http://localhost:8000/auth/login
 Content-Type: application/json
@@ -91,11 +85,11 @@ Content-Type: application/json
 ### create a new post with a token
 POST http://localhost:8000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODA4OTUsImV4cCI6MTc3MzM4NTY5NX0.oQ7MvNrgFtGOkp1axFE8aDXrPjUOesla4PM8TF1WTIg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWE5MjFiNGUxNjcyODQzOGUyMTY3MTQiLCJpYXQiOjE3NzI3ODEyNTgsImV4cCI6MTc3MzM4NjA1OH0.K_sCDkl-1_OLYPsymtJlRjXspDmo0Y_XIW1dxI8gQ-Y
 
 {
     "title": "Reuse Bags",
-    "content": "Remember to bring your own bag",
+    "content": "Remember to bring your own bag"
 }
 
 ### create a new post without a token
@@ -104,18 +98,35 @@ Content-Type: application/json
 
 {
     "title": "Reuse Bags",
-    "content": "Remember to bring your own bag",
+    "content": "Remember to bring your own bag"
 }
 
 ### update a post
-PUT http://localhost:8000/posts/69a0d6f23ccad04e9cab7400
+PUT http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWE5MjFiNGUxNjcyODQzOGUyMTY3MTQiLCJpYXQiOjE3NzI3ODEyNTgsImV4cCI6MTc3MzM4NjA1OH0.K_sCDkl-1_OLYPsymtJlRjXspDmo0Y_XIW1dxI8gQ-Y
 
 {
     "title": "Reuse Bags updated",
-    "content": "Remember to bring your own bag",
-    "authorId": "69a0d23b1deec5dd4f138f84"
+    "content": "Remember to bring your own bag"
 }
 
-### delete a specific post
-DELETE http://localhost:8000/posts/69a0d6dc3ccad04e9cab73fe
+### delete a post with another user token
+DELETE http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODE3NDIsImV4cCI6MTc3MzM4NjU0Mn0.fI7zlTZyI5TRn24jhEGEul1N5mRwmEaI3txJtS2QbFI
+
+### post a comment
+POST http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODE3NDIsImV4cCI6MTc3MzM4NjU0Mn0.fI7zlTZyI5TRn24jhEGEul1N5mRwmEaI3txJtS2QbFI
+
+{
+    "content": "I don't think so."
+}
+
+### delete a comment
+DELETE http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec/comments/69aa818d1a46cc3773058141
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODE3NDIsImV4cCI6MTc3MzM4NjU0Mn0.fI7zlTZyI5TRn24jhEGEul1N5mRwmEaI3txJtS2QbFI
+
+### check loading balancer
+GET http://climate-hub-alb-2135184959.us-west-2.elb.amazonaws.com/health

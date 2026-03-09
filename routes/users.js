@@ -49,25 +49,25 @@ const getUserByIdHandler = async(req, res) => {
 //     }
 // }
 
-const createUserHandler = async(req, res) =>{
-    try{
-        const {username, email} = req.body;
-        if(!username || !email){
-            return res.status(400).json({error:'Username and email required!'});
-        }
-        const user = await User.create({username, email});
-        res.status(201).json(user);
-    }catch(err){
-        if(err.code === 11000){
-            return res.status(400).json({error: 'Username or email already exists'});
-        }
-        res.status(500).json({error: err.message});
-    }
-}
+// const createUserHandler = async(req, res) =>{
+//     try{
+//         const {username, email} = req.body;
+//         if(!username || !email){
+//             return res.status(400).json({error:'Username and email required!'});
+//         }
+//         const user = await User.create({username, email});
+//         res.status(201).json(user);
+//     }catch(err){
+//         if(err.code === 11000){
+//             return res.status(400).json({error: 'Username or email already exists'});
+//         }
+//         res.status(500).json({error: err.message});
+//     }
+// }
 
 usersRouter.get('/', getUsersHandler)
 usersRouter.get('/:id', getUserByIdHandler)
-usersRouter.post('/', createUserHandler)
+// usersRouter.post('/', createUserHandler)
 
 
 module.exports = usersRouter
