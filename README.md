@@ -65,13 +65,17 @@ Errors are returned as JSON with an `error` message and an appropriate HTTP stat
 npm install
 npm run dev
 
+## Create .env file
+cp .env.example .env
+Fill in your MongoDB URI and JWT_SECRET
+
 ## Run with Docker
 
-## Start all services
+### Start all services
 
 docker-compose up --build
 
-## Stop all services
+### Stop all services
 
 docker-compose down
 

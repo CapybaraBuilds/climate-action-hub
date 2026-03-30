@@ -38,9 +38,9 @@ POST http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-    "username": "Clare",
-    "email": "clare@mail.com",
-    "password": "passwordClare"
+    "username": "Bob",
+    "email": "bob@mail.com",
+    "password": "password"
 }
 
 
@@ -49,8 +49,8 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email": "clare@mail.com",
-    "password": "passwordClare"
+    "email": "bob@mail.com",
+    "password": "password"
 }
 
 ### login as another user
@@ -67,8 +67,8 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email": "clare@mail.com",
-    "password": "passwordClare11"
+    "email": "alice@mail.com",
+    "password": "password"
 }
 
 ### register an esisted user
@@ -85,11 +85,11 @@ Content-Type: application/json
 ### create a new post with a token
 POST http://localhost:8000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWE5MjFiNGUxNjcyODQzOGUyMTY3MTQiLCJpYXQiOjE3NzI3ODEyNTgsImV4cCI6MTc3MzM4NjA1OH0.K_sCDkl-1_OLYPsymtJlRjXspDmo0Y_XIW1dxI8gQ-Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWNhZDc5ZDlkOTY5ZTE1OTc4N2EwODUiLCJpYXQiOjE3NzQ5MDExNzYsImV4cCI6MTc3NTUwNTk3Nn0.9balbq0sU0hYVdz_w_Hb4hioC1_AyrwliOuwrpRY_1c
 
 {
-    "title": "Reuse Bags",
-    "content": "Remember to bring your own bag"
+    "title": "Travel low-carbon",
+    "content": "Avoid taking plane"
 }
 
 ### create a new post without a token
@@ -112,8 +112,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWE5M
 }
 
 ### delete a post with another user token
-DELETE http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzI3ODE3NDIsImV4cCI6MTc3MzM4NjU0Mn0.fI7zlTZyI5TRn24jhEGEul1N5mRwmEaI3txJtS2QbFI
+DELETE http://localhost:8000/posts/69cad8019d969e159787a089
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhN2Q1ZWZiOTdmMGRiOTE2ZTcxZDgiLCJpYXQiOjE3NzQ5MDEzMzIsImV4cCI6MTc3NTUwNjEzMn0.Z9Wkri9Xhv_xDAoIea333USlltL4PDevEyWgpIn8ef0
 
 ### post a comment
 POST http://localhost:8000/posts/69aa7fe0350aa69c6278f9ec/comments

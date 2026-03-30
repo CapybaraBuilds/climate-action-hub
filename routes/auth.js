@@ -46,7 +46,7 @@ const userLoginHandler = async(req, res) => {
             return res.status(401).json({error: "Invalid Email or password!"});
         }
         const token = await generateToken(user._id);
-        res.status(201).json({
+        res.status(200).json({
             token,
             user: {id: user._id, username: user.username, email:user.email}
         });
